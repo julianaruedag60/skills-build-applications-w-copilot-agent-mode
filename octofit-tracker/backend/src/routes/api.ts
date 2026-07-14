@@ -4,7 +4,7 @@ import { Activity, LeaderboardEntry, Team, User, Workout } from '../models.js';
 const router = Router();
 
 export function getApiBaseUrl(): string {
-  const codespaceName = process.env.CODESPACE_NAME;
+  const codespaceName = process.env.CODESPACE_NAME?.trim();
   return codespaceName
     ? `https://${codespaceName}-8000.app.github.dev`
     : 'http://localhost:8000';
