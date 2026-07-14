@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { buildApiUrl } from '../utils/api.js';
 
 export default function Teams() {
   const [teams, setTeams] = useState([]);
@@ -8,7 +7,12 @@ export default function Teams() {
   useEffect(() => {
     async function loadTeams() {
       try {
-        const response = await fetch(buildApiUrl('teams'));
+        const codespaceName = import.meta.env.VITE_CODESPACE_NAME?.trim();
+        const apiUrl = codespaceName
+          ? `https://${codespaceName}-8000.app.github.dev/api/teams/`
+          : 'http://localhost:8000/api/teams/';
+
+        const response = await fetch(apiUrl);
         const data = await response.json();
         const items = Array.isArray(data) ? data : data.results || [];
         setTeams(items);
